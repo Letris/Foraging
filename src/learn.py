@@ -5,6 +5,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import time 
 import copy
+import pickle
 
 class Controller:
     def __init__(self, inputsize, outputsize, hiddensize):
@@ -52,6 +53,10 @@ class Controller:
     def update_fitness(self, state, action):
         # ToDo
 
+    def save(self):
+        with open("brain.file", "wb") as f:
+            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
+
 
 def train():
     # define neural network
@@ -65,9 +70,10 @@ def train():
     # define other parameters
     M = 0 # amount of episodes
     S = 0 # amount of steps per episode
-    sigma = 0 # standard deviation
-    min_sigma = 0 # minimal standard deviation
+    sigma = 0.01 # standard deviation
+    min_sigma = 0.01 # minimal standard deviation
 
+    # save all controllers
     controllers = [champion]
     
     for s in range(S):
@@ -103,6 +109,10 @@ def train():
         env.stop_world()
         time.sleep(10)
 
+    # plot fitness over time
+    plot_fitness(controllers)
+    # save best controller
+    champion.save()
 
     if __name__ == '__main__':
     try:

@@ -4,6 +4,9 @@ import time
 import vrep
 import cv2
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 class VREPCommunicationError(Exception):
     pass
@@ -12,7 +15,7 @@ class SimulationRobobo(Robobo):
     def __init__(self, number=""):
         self._clientID = None
         self._value_number = number
-    
+        
     def connect(self, address='127.0.0.1', port=19999):
         vrep.simxFinish(-1)  # just in case, close all opened connections
         self._clientID = vrep.simxStart(address, port, True, True, 5000, 5)  # Connect to V-REP
@@ -283,3 +286,23 @@ class SimulationRobobo(Robobo):
 
     def obtain_state(self):
         #ToDo
+
+    def plot_fitness(self, controllers):
+        fitness_list = []
+
+        for controller in controllers:
+            fitness_list.append(controller.fitness)
+
+        plt.plot(fitness_list, label='fitness')
+        plt.legend()
+        plt.savefig('all_env.png')
+        plt.close()
+    
+    def load_model(self, f):
+        with open("brain.file", "rb") as f:
+            model = pickle.load(f)
+        
+        return model
+
+
+    
