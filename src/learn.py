@@ -65,8 +65,8 @@ def train():
     # define other parameters
     M = 0 # amount of episodes
     S = 0 # amount of steps per episode
-    sigma = 0 # standard deviation
-    min_sigma = 0 # minimal standard deviation
+    sigma = 0.01 # standard deviation
+    min_sigma = 0.01 # minimal standard deviation
 
     controllers = [champion]
     
@@ -102,6 +102,12 @@ def train():
         # stop current environment
         env.stop_world()
         time.sleep(10)
+
+    #plot fitness over time
+    env.plot_fitness(controllers)
+    #save best controller
+    # save best controller
+    champion.save()
 
 
     if __name__ == '__main__':
