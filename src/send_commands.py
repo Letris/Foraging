@@ -24,6 +24,7 @@ def main():
     
     print("robobo is at {}".format(rob.position()))
     rob.move(5, 5, 2000)
+    
     print("robobo is at {}".format(rob.position()))
 
     # # Following code moves the phone stand

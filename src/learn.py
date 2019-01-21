@@ -110,7 +110,7 @@ def train():
         time.sleep(10)
 
     # plot fitness over time
-    plot_fitness(controllers)
+    env.plot_fitness(controllers)
     # save best controller
     champion.save()
 
